@@ -1,7 +1,19 @@
 import '../utils/file_importer.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void dispose() {
+    super.dispose();
+    Provider.read(context).dataStorage.textEditingController1.dispose();
+    Provider.read(context).dataStorage.textEditingController2.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

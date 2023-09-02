@@ -1,9 +1,14 @@
 import '../utils/file_importer.dart';
 
 class DataStorage {
-  DataStorage() : repository = CurrencyRepositoryImpl(APIService());
+  DataStorage()
+      : repository = CurrencyRepositoryImpl(APIService()),
+        textEditingController1 = TextEditingController(),
+        textEditingController2 = TextEditingController();
 
   ICurrencyRepository repository;
+  TextEditingController textEditingController1;
+  TextEditingController textEditingController2;
 
   List<Currency> allCurrencies = [];
   List<Currency> latestAllCurrencies = [];

@@ -2,32 +2,19 @@ import 'package:intl/intl.dart';
 
 import '../utils/file_importer.dart';
 
-class ConvertWidget extends StatefulWidget {
+class ConvertWidget extends StatelessWidget {
   final bool enabled;
-  final TextEditingController? textEditingController1;
-  final TextEditingController? textEditingController2;
 
-  ConvertWidget({
-    super.key,
-    required this.enabled,
-    this.textEditingController1,
-    this.textEditingController2,
-  }) : formatter = NumberFormat.decimalPatternDigits(
+  ConvertWidget({super.key, required this.enabled})
+      : formatter = NumberFormat.decimalPatternDigits(
           locale: 'en_us',
           decimalDigits: 2,
         );
 
   final NumberFormat formatter;
-
-  @override
-  State<ConvertWidget> createState() => _ConvertWidgetState();
-}
-
-class _ConvertWidgetState extends State<ConvertWidget> {
   final ValueNotifier<String> result = ValueNotifier("0");
-  late DataStorage dataStorage;
 
-  void exchange(String v) {
+  void exchange(String v, DataStorage dataStorage) {
     final current = double.tryParse(v) ?? 0;
     final a = dataStorage.allCurrencies
         .where((e) => e.ccy == dataStorage.currentCity.value)
@@ -36,27 +23,27 @@ class _ConvertWidgetState extends State<ConvertWidget> {
 
     if (dataStorage.isUzbekistan.value) {
       result.value =
-          widget.formatter.format(current / (double.tryParse(a!) as double));
-      widget.textEditingController2?.text = result.value;
+          formatter.format(current / (double.tryParse(a!) as double));
+      dataStorage.textEditingController2.text = result.value;
     } else {
-      result.value = widget.formatter.format(
+      result.value = formatter.format(
         (double.tryParse(a!) as double) * (double.tryParse(v) ?? 0),
       );
 
-      widget.textEditingController2?.text = result.value;
+      dataStorage.textEditingController2.text = result.value;
     }
-    if (widget.textEditingController1?.text.isEmpty ?? false) {
-      widget.textEditingController2?.text = '0';
+    if ((dataStorage.textEditingController1.text.isEmpty && enabled)) {
+      dataStorage.textEditingController2.text = '0';
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    dataStorage = Provider.watch(context).dataStorage;
+    DataStorage dataStorage = Provider.watch(context).dataStorage;
     return ValueListenableBuilder(
       valueListenable: dataStorage.isUzbekistan,
       builder: (context, value, child) {
-        if (!widget.enabled) {
+        if (!enabled) {
           value = !value;
         }
         return Row(
@@ -111,8 +98,8 @@ class _ConvertWidgetState extends State<ConvertWidget> {
                             onChanged: (value) {
                               dataStorage.currentCity.value = value!;
                               dataStorage.getConvert(dataStorage.currentCity);
-                              widget.textEditingController1?.clear();
-                              widget.textEditingController2?.clear();
+                              dataStorage.textEditingController1.clear();
+                              dataStorage.textEditingController2.clear();
                             },
                           ),
                   ],
@@ -127,11 +114,11 @@ class _ConvertWidgetState extends State<ConvertWidget> {
                 valueListenable: result,
                 builder: (context, res, _) {
                   return TextFormField(
-                    controller: widget.enabled
-                        ? widget.textEditingController1
-                        : widget.textEditingController2,
+                    controller: enabled
+                        ? dataStorage.textEditingController1
+                        : dataStorage.textEditingController2,
                     onChanged: (value) {
-                      exchange(value);
+                      exchange(value, dataStorage);
                     },
                     textAlign: TextAlign.end,
                     keyboardType: TextInputType.number,
@@ -143,12 +130,12 @@ class _ConvertWidgetState extends State<ConvertWidget> {
                       color: Color(0xFF26278D),
                       fontWeight: FontWeight.bold,
                     ),
-                    enabled: widget.enabled,
+                    enabled: enabled,
                     decoration: InputDecoration(
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 10),
                       filled: true,
-                      hintText: widget.enabled ? '0' : res,
+                      hintText: enabled ? '0' : res,
                       hintStyle: const TextStyle(
                         color: Color(0xFF26278D),
                         fontWeight: FontWeight.bold,

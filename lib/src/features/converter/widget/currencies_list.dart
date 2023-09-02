@@ -1,9 +1,7 @@
 import '../utils/file_importer.dart';
 
 class CurrenciesList extends StatelessWidget {
-  const CurrenciesList({
-    super.key,
-  });
+  const CurrenciesList({super.key});
 
   String getDifference(Currency today, Currency lastDay) {
     final actualRate = double.tryParse(today.rate ?? '0') ?? 0;

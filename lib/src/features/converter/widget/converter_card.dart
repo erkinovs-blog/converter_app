@@ -1,9 +1,7 @@
 import '../utils/file_importer.dart';
 
 class ConverterCard extends StatefulWidget {
-  const ConverterCard({
-    super.key,
-  });
+  const ConverterCard({super.key});
 
   @override
   State<ConverterCard> createState() => _ConverterCardState();
@@ -53,21 +51,15 @@ class _ConverterCardState extends State<ConverterCard> {
                   ),
                   ConvertWidget(
                     enabled: true,
-                    textEditingController1: textEditingController1,
-                    textEditingController2: textEditingController2,
                   ),
                   10.verticalSpace,
                   5.verticalSpace,
-                  StackDivider(
-                    textEditingController1: textEditingController1,
-                    textEditingController2: textEditingController2,
-                  ),
+                  const StackDivider(),
                   CustomText(
                     text: 'Конвертируемая сумма',
                   ),
                   ConvertWidget(
                     enabled: false,
-                    textEditingController2: textEditingController2,
                   ),
                   10.verticalSpace,
                 ],
