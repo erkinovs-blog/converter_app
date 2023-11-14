@@ -64,8 +64,7 @@ class APIService {
         'Check your network',
         StackTrace.current,
       );
-    } catch (e, stackTrace) {
-      debugPrint('$e\n$stackTrace');
+    } catch (e) {
       rethrow;
     }
   }

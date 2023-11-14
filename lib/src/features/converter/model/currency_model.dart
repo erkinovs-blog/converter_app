@@ -58,6 +58,37 @@ class Currency {
   }
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Currency &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          code == other.code &&
+          ccy == other.ccy &&
+          ccyNmRu == other.ccyNmRu &&
+          ccyNmUz == other.ccyNmUz &&
+          ccyNmUzc == other.ccyNmUzc &&
+          ccyNmEn == other.ccyNmEn &&
+          nominal == other.nominal &&
+          rate == other.rate &&
+          diff == other.diff &&
+          date == other.date;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      code.hashCode ^
+      ccy.hashCode ^
+      ccyNmRu.hashCode ^
+      ccyNmUz.hashCode ^
+      ccyNmUzc.hashCode ^
+      ccyNmEn.hashCode ^
+      nominal.hashCode ^
+      rate.hashCode ^
+      diff.hashCode ^
+      date.hashCode;
+
+  @override
   String toString() {
     return 'Currency(id: $id;  code: $code; ccy: $ccy; ccyNmRu: $ccyNmRu; ccyNmUz: $ccyNmUz; ccyNmUzc: $ccyNmUzc; ccyNmEn: $ccyNmEn; nominal: $nominal; rate: $rate; diff: $diff; date: $date)';
   }

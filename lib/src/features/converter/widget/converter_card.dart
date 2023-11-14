@@ -1,3 +1,6 @@
+import 'package:converter_app/src/features/converter/bloc/converter_bloc/converter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../utils/file_importer.dart';
 
 class ConverterCard extends StatefulWidget {
@@ -8,26 +11,22 @@ class ConverterCard extends StatefulWidget {
 }
 
 class _ConverterCardState extends State<ConverterCard> {
-  late TextEditingController textEditingController1;
-  late TextEditingController textEditingController2;
+  late TextEditingController controller;
 
   @override
   void initState() {
+    controller = TextEditingController();
     super.initState();
-    textEditingController1 = TextEditingController();
-    textEditingController2 = TextEditingController();
   }
 
   @override
   void dispose() {
+    controller.dispose();
     super.dispose();
-    textEditingController1.dispose();
-    textEditingController2.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    DataStorage dataStorage = Provider.watch(context).dataStorage;
     return SizedBox(
       width: 320.w,
       height: 260.h,
@@ -39,32 +38,43 @@ class _ConverterCardState extends State<ConverterCard> {
         color: Colors.white,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
-          child: ValueListenableBuilder(
-            valueListenable: dataStorage.isUzbekistan,
-            builder: (context, value, child) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText(
-                    text: 'Сумма',
-                  ),
-                  ConvertWidget(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CustomText(
+                text: 'Сумма',
+              ),
+              BlocBuilder<ConverterBloc, ConverterState>(
+                buildWhen: (previous, current) =>
+                    previous.first != current.first,
+                builder: (context, state) {
+                  return ConvertWidget(
+                    currency: state.first ?? "USD",
+                    controller: controller,
                     enabled: true,
-                  ),
-                  10.verticalSpace,
-                  5.verticalSpace,
-                  const StackDivider(),
-                  CustomText(
-                    text: 'Конвертируемая сумма',
-                  ),
-                  ConvertWidget(
+                  );
+                },
+              ),
+              10.verticalSpace,
+              5.verticalSpace,
+              const StackDivider(),
+              const CustomText(
+                text: 'Конвертируемая сумма',
+              ),
+              BlocBuilder<ConverterBloc, ConverterState>(
+                buildWhen: (previous, current) =>
+                    previous.second != current.second,
+                builder: (context, state) {
+                  return ConvertWidget(
+                    currency: state.second ?? "UZS",
+                    controller: controller,
                     enabled: false,
-                  ),
-                  10.verticalSpace,
-                ],
-              );
-            },
+                  );
+                },
+              ),
+              10.verticalSpace,
+            ],
           ),
         ),
       ),

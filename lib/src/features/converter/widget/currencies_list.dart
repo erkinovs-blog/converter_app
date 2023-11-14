@@ -1,3 +1,7 @@
+import 'package:converter_app/src/common/utils/functions.dart';
+import 'package:converter_app/src/features/converter/bloc/converter_bloc/converter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../utils/file_importer.dart';
 
 class CurrenciesList extends StatelessWidget {
@@ -20,10 +24,7 @@ class CurrenciesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DataStorage dataStorage = Provider.read(context).dataStorage;
-    return SizedBox(
-      width: 328.w,
-      height: 250.h,
+    return Expanded(
       child: Card(
         elevation: 4,
         color: Colors.white,
@@ -32,19 +33,37 @@ class CurrenciesList extends StatelessWidget {
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-          child: ListView.separated(
-            itemCount: dataStorage.allCurrencies.length,
-            separatorBuilder: (context, index) => const Divider(),
-            itemBuilder: (context, index) {
-              final Currency item = dataStorage.allCurrencies[index];
-              final Currency lastDay = dataStorage.latestAllCurrencies[index];
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: CurrencyListItem(
-                  currency: item.ccyNmRu ?? '',
-                  symbolCode: item.ccy ?? '',
-                  change: getDifference(item, lastDay),
-                  exchangeRate: item.rate ?? '',
+          child: BlocBuilder<ConverterBloc, ConverterState>(
+            buildWhen: (previous, current) =>
+                !equalList(previous.allCurrencies!, current.allCurrencies!) ||
+                !equalList(previous.yesterdayCurrencies!,
+                    current.yesterdayCurrencies!),
+            builder: (context, state) {
+              return ScrollbarTheme(
+                data: const ScrollbarThemeData(
+                  mainAxisMargin: 20,
+                ),
+                child: Scrollbar(
+                  radius: const Radius.circular(5),
+                  child: ListView.separated(
+                    itemCount: state.allCurrencies!.length,
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemBuilder: (context, index) {
+                      final Currency item =
+                          state.allCurrencies!.elementAt(index);
+                      final Currency lastDay =
+                          state.yesterdayCurrencies!.elementAt(index);
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        child: CurrencyListItem(
+                          currency: item.ccyNmRu ?? '',
+                          symbolCode: item.ccy ?? '',
+                          change: getDifference(item, lastDay),
+                          exchangeRate: item.rate ?? '',
+                        ),
+                      );
+                    },
+                  ),
                 ),
               );
             },

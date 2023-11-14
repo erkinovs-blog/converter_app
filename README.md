@@ -1,16 +1,36 @@
-# converter_app
+# Currency Converter App
 
-A new Flutter project.
+Welcome to the Currency Converter App! This mobile application is designed to simplify currency conversions, with a special focus on Uzbek currency (soums). Whether you're traveling or managing international transactions, this app has got you covered.
+
+## Features
+
+- **Uzbek to Other Currencies:** Convert Uzbek soums to a wide range of other currencies effortlessly.
+
+- **Other Currencies to Uzbek:** Need to know how much your foreign currency is in Uzbek soums? This app has you covered.
+
+- **Daily Exchange Rates:** Stay up-to-date with the latest exchange rates against the Uzbek soum. Get accurate and real-time information for informed decision-making.
+
+## How to Use
+
+1. **Conversion:**
+   - Simply enter the amount in Uzbek soums or another currency.
+   - Select the target currency.
+   - Get instant and accurate conversion results.
+
+2. **Daily Exchange Rates:**
+   - Explore the daily exchange rates to make informed decisions.
+   - Stay informed about fluctuations in currency values.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To use the app, follow these steps:
 
-A few resources to get you started if this is your first Flutter project:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mcodevs/converter_app.git
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Screenshots
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+## Happy converting!❤️

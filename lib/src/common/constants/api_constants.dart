@@ -1,7 +1,7 @@
 abstract final class ApiConst {
   static const baseUrl = String.fromEnvironment(
     "base_url",
-    defaultValue: "123",
+    defaultValue: "https://cbu.uz",
   );
 
   print(baseUrl);
